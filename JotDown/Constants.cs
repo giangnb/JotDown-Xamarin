@@ -6,8 +6,12 @@ namespace JotDown
 {
 	public static class Constants
 	{
-		// Replace strings with your Azure Mobile App endpoint.
-		public static string ApplicationURL = @"https://jotdown.azurewebsites.net";
+        // Replace strings with your Azure Mobile App endpoint.  
+        public static string ApplicationURL = @"https://jotdown.azurewebsites.net";
+
+	    public static TodoItem CurrentTodo;
+
+	    public static readonly TodoItemManager TodoManager = TodoItemManager.DefaultManager;
 
 	    public static void InitialiseProperties()
 	    {

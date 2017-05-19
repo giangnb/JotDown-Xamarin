@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Xamarin.Forms;
 
 namespace JotDown
@@ -16,11 +18,11 @@ namespace JotDown
 
             // OnPlatform<T> doesn't currently support the "Windows" target platform, so we have this check here.
             if (manager.IsOfflineEnabled &&
-                (Device.OS == TargetPlatform.Windows || Device.OS == TargetPlatform.WinPhone))
+                (Device.RuntimePlatform == Device.Windows || Device.RuntimePlatform == Device.WinPhone))
             {
                 var syncButton = new Button
                 {
-                    Text = "Sync items",
+                    Text = "Sync",
                     HeightRequest = 30
                 };
                 syncButton.Clicked += OnSyncItems;
@@ -71,6 +73,7 @@ namespace JotDown
         public async void OnSelected( object sender, SelectedItemChangedEventArgs e )
         {
             var todo = e.SelectedItem as TodoItem;
+            //Debug.WriteLine(JsonConvert.SerializeObject( Constants.CurrentTodo ) );
             await Navigation.PushAsync(new NoteDetail(todo), true);
             //if (Device.OS != TargetPlatform.iOS && todo != null)
             //{
@@ -88,9 +91,6 @@ namespace JotDown
             //        }
             //    }
             //}
-
-            // prevents background getting highlighted
-            todoList.SelectedItem = null;
         }
 
         // http://developer.xamarin.com/guides/cross-platform/xamarin-forms/working-with/listview/#context

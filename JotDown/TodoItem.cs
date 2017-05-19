@@ -14,7 +14,7 @@ namespace JotDown
 	    public string Account { get; set; }
 
 	    [JsonProperty( PropertyName = "name" )]
-	    public string Name;
+	    public string Name { get; set; }
 
 	    [JsonProperty( PropertyName = "note" )]
 	    public string Note { get; set; } = "";

@@ -26,8 +26,6 @@ namespace JotDown.Droid
 		
 		public static void UpdateIdValues()
 		{
-			global::Xamarin.Forms.Platform.Resource.String.ApplicationName = global::JotDown.Droid.Resource.String.ApplicationName;
-			global::Xamarin.Forms.Platform.Resource.String.Hello = global::JotDown.Droid.Resource.String.Hello;
 		}
 		
 		public partial class Attribute

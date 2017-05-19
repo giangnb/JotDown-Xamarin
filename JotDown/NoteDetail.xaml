@@ -3,17 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="JotDown.NoteDetail"
              Title="Note detail">
-    <Label Text="" FontSize="Large"/>
-    <ScrollView>
+    <StackLayout Orientation="Horizontal">
+        <Button Text="Edit" HorizontalOptions="End"></Button>
+    </StackLayout>
+    
+    <ScrollView >
         <StackLayout Padding="10">
             <!-- For note -->
-            <StackLayout IsVisible="True">
-                <Label Text="" LineBreakMode="WordWrap"/>
-            </StackLayout>
+            <Label x:Name="LblNote" Text="" LineBreakMode="WordWrap"/>
 
-            <StackLayout Orientation="Vertical" IsVisible="True">
+            <StackLayout x:Name="FrameList" Orientation="Vertical" IsVisible="True">
                 <Label Text="Pending"></Label>
-                <ListView>
+                <ListView x:Name="LstPending">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
@@ -22,7 +23,7 @@
                                 </ViewCell.ContextActions>
                                 <StackLayout HorizontalOptions="StartAndExpand" Orientation="Horizontal" Padding="15,5,0,0">
                                     <StackLayout Padding="5,0,0,0" VerticalOptions="StartAndExpand" Orientation="Vertical">
-                                        <Label Text="sadasd"  />
+                                        <Label Text="{Binding Name}"/>
                                     </StackLayout>
                                 </StackLayout>
                             </ViewCell>
@@ -31,7 +32,7 @@
                 </ListView>
 
                 <Label Text="Completed"></Label>
-                <ListView ItemsSource="{Binding Item.Todo}">
+                <ListView x:Name="LstComplete">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
@@ -48,10 +49,6 @@
                     </ListView.ItemTemplate>
                 </ListView>
             </StackLayout>
-            <Label Text="ContentPage is the simplest type of page."/>
-            <Label Text="The content of the ContentPage is generally a layout of some sort that can be a parent to multiple children."/>
-            <Label Text="This content page contains a StackLayout, which in turn contains a few Label views (including the large one on the top and an example of handling click commands and data binding to a Label below)."/>
-            <Button Text="Click Me"/>
         </StackLayout>
     </ScrollView>
 </ContentPage>

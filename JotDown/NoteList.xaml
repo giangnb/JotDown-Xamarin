@@ -2,7 +2,7 @@
 <ContentPage 	xmlns="http://xamarin.com/schemas/2014/forms" 
              	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              	x:Class="JotDown.NoteList"
-             	Title="JotDown">
+             	Title="JotDown." IsBusy="True">
     <Grid RowSpacing="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -15,7 +15,7 @@
                            IsEnabled="True"
                            x:Name="syncIndicator"/>
         <StackLayout Grid.Row="0" BackgroundColor="#5ABAFF" Padding="10,30,10,5">
-            <Label TextColor="#ffffff" Text="JotDown." FontSize="Large" />
+            <Label TextColor="#ffffff" Text="JotDown." FontSize="Large" IsVisible="False" />
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -41,8 +41,8 @@
                             <MenuItem Clicked="OnComplete" Text="Complete" CommandParameter="{Binding .}"/>
                         </ViewCell.ContextActions>
                         <StackLayout HorizontalOptions="StartAndExpand" Orientation="Horizontal" Padding="15,5,0,0">
-                            <StackLayout Padding="5,0,0,0" VerticalOptions="StartAndExpand" Orientation="Vertical">
-                                <Label Text="{Binding Id}"  />
+                            <StackLayout Padding="5,0,5,5" VerticalOptions="StartAndExpand" Orientation="Vertical">
+                                <Label Text="{Binding Name}"/>
                             </StackLayout>
                         </StackLayout>
                     </ViewCell>

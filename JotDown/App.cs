@@ -10,7 +10,7 @@ namespace JotDown
 		{
 		    Constants.InitialiseProperties();
 			// The root page of your application
-			MainPage = new Page1();
+			MainPage = new NavigationPage( new NoteList() );
 		}
 
 		protected override void OnStart ()
