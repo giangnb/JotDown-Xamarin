@@ -2,11 +2,12 @@
 <ContentPage 	xmlns="http://xamarin.com/schemas/2014/forms" 
              	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              	x:Class="JotDown.NoteList"
-             	Title="JotDown." IsBusy="True">
+             	Title="JotDown.">
     <Grid RowSpacing="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <ActivityIndicator Grid.RowSpan="2"
                            HorizontalOptions="Center"
@@ -22,14 +23,19 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <Entry x:Name="newItemName"
-                       Placeholder="Item name" />
-                <StackLayout x:Name="buttonsPanel" Grid.Column="1" Orientation="Horizontal" HorizontalOptions="StartAndExpand">
-                    <Button Text="+"
-                            MinimumHeightRequest="30"
-                            Clicked="OnAdd" />
+                       Placeholder="Item name" IsVisible="False"/>
+                <StackLayout x:Name="buttonsPanel" 
+                             Grid.Column="1" Orientation="Horizontal" 
+                             VerticalOptions="End"
+                             HorizontalOptions="StartAndExpand">
+                    <Button x:Name="btnAbout" Text="About" Clicked="BtnAbout_OnClicked"/>
+                    <Button x:Name="btnAccount" Text="Account" Clicked="BtnAccount_OnClicked"/>
+                    <Button x:Name="syncButton" Text="Sync" IsVisible="False" Clicked="OnSyncItems"></Button>
+                    <!-- Sync Btn here -->
                 </StackLayout>
             </Grid>
         </StackLayout>
+        
         <ListView x:Name="todoList"
                   ItemSelected="OnSelected"
                   IsPullToRefreshEnabled="true" Refreshing="OnRefresh"
@@ -38,7 +44,8 @@
                 <DataTemplate>
                     <ViewCell>
                         <ViewCell.ContextActions>
-                            <MenuItem Clicked="OnComplete" Text="Complete" CommandParameter="{Binding .}"/>
+                            <MenuItem x:Name="btnEdit" Clicked="BtnEdit_OnClicked" Text="Edit" CommandParameter="{Binding .}"/>
+                            <MenuItem Clicked="OnComplete" Text="Delete" CommandParameter="{Binding .}"/>
                         </ViewCell.ContextActions>
                         <StackLayout HorizontalOptions="StartAndExpand" Orientation="Horizontal" Padding="15,5,0,0">
                             <StackLayout Padding="5,0,5,5" VerticalOptions="StartAndExpand" Orientation="Vertical">
@@ -49,5 +56,12 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+
+        <StackLayout Grid.Row="2">
+            <Button Text="Add Note"
+                    MinimumHeightRequest="50"
+                    Clicked="OnAdd" 
+                    FontSize="20"/>
+        </StackLayout>
     </Grid>
 </ContentPage>

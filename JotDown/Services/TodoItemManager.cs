@@ -34,14 +34,12 @@ namespace JotDown
         IMobileServiceTable<TodoItem> todoTable;
 #endif
 
-        const string offlineDbPath = @"localstore.db";
-
         private TodoItemManager()
         {
             this.client = new MobileServiceClient( Constants.ApplicationURL );
 
 #if OFFLINE_SYNC_ENABLED
-            var store = new MobileServiceSQLiteStore( offlineDbPath );
+            var store = new MobileServiceSQLiteStore( Constants.OfflineDbPath );
             store.DefineTable<TodoItem>();
 
             //Initializes the SyncContext using the default IMobileServiceSyncHandler.
@@ -89,7 +87,7 @@ namespace JotDown
                     .Where( todoItem => !todoItem.Done )
                     .ToEnumerableAsync();
 
-                return new ObservableCollection<TodoItem>( items );
+                return new ObservableCollection<TodoItem>( items.Where(i=>!i.Done).Reverse() );
             }
             catch (MobileServiceInvalidOperationException msioe)
             {

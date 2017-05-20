@@ -22,7 +22,7 @@ namespace JotDown
 	    [JsonProperty( PropertyName = "tag" )]
 	    public string Tag { get; set; }
 
-	    [JsonProperty( PropertyName = "isnote" )]
+	    [JsonProperty(PropertyName = "isnote")]
 	    public bool IsNote { get; set; } = true;
 
         [JsonProperty(PropertyName = "complete")]
@@ -46,9 +46,18 @@ namespace JotDown
 	        {
 	            return !IsNote;
 	        }
-	        private set
+	        set
 	        {
-	            // Do nothing 
+	            if (value)
+	            {
+	                ConvertToTodo();
+	                IsNote = false;
+	            }
+	            else
+	            {
+	                ConvertToNote();
+	                IsNote = true;
+	            }
 	        }
 	    }
 

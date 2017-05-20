@@ -8,26 +8,24 @@ namespace JotDown
 {
     public partial class NoteList : ContentPage
     {
-        TodoItemManager manager;
+        //TodoItemManager manager;
 
         public NoteList()
         {
             InitializeComponent();
 
-            manager = TodoItemManager.DefaultManager;
+            //manager = TodoItemManager.DefaultManager;
 
             // OnPlatform<T> doesn't currently support the "Windows" target platform, so we have this check here.
-            if (manager.IsOfflineEnabled &&
+            if (Constants.TodoManager.IsOfflineEnabled &&
                 (Device.RuntimePlatform == Device.Windows || Device.RuntimePlatform == Device.WinPhone))
             {
-                var syncButton = new Button
-                {
-                    Text = "Sync",
-                    HeightRequest = 30
-                };
-                syncButton.Clicked += OnSyncItems;
-
-                buttonsPanel.Children.Add( syncButton );
+                syncButton.IsVisible = true;
+            }
+            if (!(bool) Application.Current.Properties["LoggedIn"])
+            {
+                btnAccount.Text = "Sign In";
+                syncButton.IsVisible = false;
             }
 
             InitData();
@@ -35,7 +33,7 @@ namespace JotDown
 
         private async void InitData()
         {
-            todoList.ItemsSource = await manager.GetTodoItemsAsync();
+            todoList.ItemsSource = await Constants.TodoManager.GetTodoItemsAsync();
         }
 
         protected override async void OnAppearing()
@@ -49,48 +47,32 @@ namespace JotDown
         // Data methods
         async Task AddItem( TodoItem item )
         {
-            await manager.SaveTaskAsync( item );
-            todoList.ItemsSource = await manager.GetTodoItemsAsync();
+            await Constants.TodoManager.SaveTaskAsync( item );
+            todoList.ItemsSource = await Constants.TodoManager.GetTodoItemsAsync();
         }
 
         async Task CompleteItem( TodoItem item )
         {
             item.Done = true;
-            await manager.SaveTaskAsync( item );
-            todoList.ItemsSource = await manager.GetTodoItemsAsync();
+            await Constants.TodoManager.SaveTaskAsync( item );
+            todoList.ItemsSource = await Constants.TodoManager.GetTodoItemsAsync();
         }
 
         public async void OnAdd( object sender, EventArgs e )
         {
-            var todo = new TodoItem { Name = newItemName.Text };
-            await AddItem( todo );
+            await Navigation.PushAsync( new EditItem() );
+            //var todo = new TodoItem { Name = newItemName.Text };
+            //await AddItem( todo );
 
-            newItemName.Text = string.Empty;
-            newItemName.Unfocus();
+            //newItemName.Text = string.Empty;
+            //newItemName.Unfocus();
         }
 
         // Event handlers
         public async void OnSelected( object sender, SelectedItemChangedEventArgs e )
         {
             var todo = e.SelectedItem as TodoItem;
-            //Debug.WriteLine(JsonConvert.SerializeObject( Constants.CurrentTodo ) );
             await Navigation.PushAsync(new NoteDetail(todo), true);
-            //if (Device.OS != TargetPlatform.iOS && todo != null)
-            //{
-            //    // Not iOS - the swipe-to-delete is discoverable there
-            //    if (Device.OS == TargetPlatform.Android)
-            //    {
-            //        await DisplayAlert( todo.Name, "Press-and-hold to complete task " + todo.Name, "Got it!" );
-            //    }
-            //    else
-            //    {
-            //        // Windows, not all platforms support the Context Actions yet
-            //        if (await DisplayAlert( "Mark completed?", "Do you wish to complete " + todo.Name + "?", "Complete", "Cancel" ))
-            //        {
-            //            await CompleteItem( todo );
-            //        }
-            //    }
-            //}
         }
 
         // http://developer.xamarin.com/guides/cross-platform/xamarin-forms/working-with/listview/#context
@@ -134,7 +116,7 @@ namespace JotDown
         {
             using (var scope = new ActivityIndicatorScope( syncIndicator, showActivityIndicator ))
             {
-                todoList.ItemsSource = await manager.GetTodoItemsAsync( syncItems );
+                todoList.ItemsSource = await Constants.TodoManager.GetTodoItemsAsync( syncItems );
             }
         }
 
@@ -173,6 +155,23 @@ namespace JotDown
                     indicatorDelay.ContinueWith( t => SetIndicatorActivity( false ), TaskScheduler.FromCurrentSynchronizationContext() );
                 }
             }
+        }
+
+        private async void BtnAccount_OnClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new Account());
+        }
+
+        private async void BtnEdit_OnClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new EditItem( ((MenuItem) sender).CommandParameter as TodoItem ) );
+        }
+
+        private async void BtnAbout_OnClicked(object sender, EventArgs e)
+        {
+            await DisplayAlert("JotDown.",
+                "Made by Giang Nguyen\nwww.giangnb.com\n\nPowered by Xamarin.Forms + Azure Mobile Service", 
+                "Close");
         }
     }
 }

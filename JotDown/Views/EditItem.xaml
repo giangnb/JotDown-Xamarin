@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="JotDown.EditItem"
+             Title="{Binding Title}">
+    <StackLayout Padding="10" Spacing="5">
+        <Entry Text="{Binding Item.Name, Mode=TwoWay}"
+               Placeholder="Name of your note"/>
+        
+        <StackLayout Orientation="Horizontal">
+            <Label Text="Todo list"
+                   HorizontalOptions="StartAndExpand"/>
+            <Switch IsToggled="{Binding Item.IsTodo, Mode=TwoWay}"
+                    Toggled="Switch_OnToggled"/>
+        </StackLayout>
+
+        <Label x:Name="LblNotice"
+               Text="Separate each todo item by a line break"
+               TextColor="DarkBlue"/>
+
+        <Label Text="Your note"/>
+        <ScrollView VerticalOptions="FillAndExpand">
+            <Editor Text="{Binding ParsedNote, Mode=TwoWay}"/>
+        </ScrollView>
+        
+        <Button Text="{Binding SaveButton}"
+                Clicked="SaveButton_OnClicked"/>
+    </StackLayout>
+</ContentPage>

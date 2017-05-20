@@ -11,9 +11,11 @@ namespace JotDown
 
 	    public static TodoItem CurrentTodo;
 
-	    public static readonly TodoItemManager TodoManager = TodoItemManager.DefaultManager;
+	    public static TodoItemManager TodoManager => TodoItemManager.DefaultManager;
 
-	    public static void InitialiseProperties()
+	    public static readonly string OfflineDbPath = @"localstore.db";
+
+        public static void InitialiseProperties()
 	    {
 	        if (!Application.Current.Properties.ContainsKey("LoggedIn"))
 	        {

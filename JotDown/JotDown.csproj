@@ -33,18 +33,25 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="NoteDetail.xaml.cs">
+    <Compile Include="Views\EditItem.xaml.cs">
+      <DependentUpon>EditItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\EditItemViewModel.cs" />
+    <Compile Include="Views\NoteDetail.xaml.cs">
       <DependentUpon>NoteDetail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Account.xaml.cs">
+      <DependentUpon>Account.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="App.cs" />
-    <Compile Include="NoteList.xaml.cs">
+    <Compile Include="Views\NoteList.xaml.cs">
       <DependentUpon>NoteList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Constants.cs" />
-    <Compile Include="TodoItem.cs" />
-    <Compile Include="TodoItemManager.cs" />
+    <Compile Include="Services\Constants.cs" />
+    <Compile Include="Models\TodoItem.cs" />
+    <Compile Include="Services\TodoItemManager.cs" />
     <Compile Include="ViewModels\NoteDetailViewModel.cs" />
     <Compile Include="ViewModels\NoteListViewModel.cs" />
   </ItemGroup>
@@ -96,12 +103,24 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="NoteList.xaml">
+    <EmbeddedResource Include="Views\NoteList.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="NoteDetail.xaml">
+    <EmbeddedResource Include="Views\NoteDetail.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Account.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\EditItem.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

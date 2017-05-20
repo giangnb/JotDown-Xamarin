@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="JotDown.Account"
+             Title="JotDown. Account">
+    <ScrollView>
+        <StackLayout>
+            <StackLayout x:Name="FrameLogIn" Padding="10" IsVisible="False">
+                <Label Text="Sign in" FontSize="Large"/>
+                <Label Text="Save and Sync your data betweeen devices"/>
+                <Button x:Name="btnLoginMicrosoft"
+                        Text="Microsoft Account" 
+                        BackgroundColor="CornflowerBlue"
+                        TextColor="Black"
+                        Clicked="BtnLoginMicrosoft_OnClicked"
+                        FontSize="Medium"/>
+                <Button x:Name="btnLoginFacebook"
+                        Text="Facebook"
+                        BackgroundColor="#3b5998"
+                        TextColor="	#f7f7f7"
+                        Clicked="BtnLoginFacebook_OnClicked"
+                        FontSize="Medium"/>
+                <Button x:Name="btnLoginTwitter"
+                        Text="Twitter"
+                        BackgroundColor="#326ada"
+                        TextColor="#f6f6f6"
+                        Clicked="BtnLoginTwitter_OnClicked"
+                        FontSize="Medium"/>
+                <Button x:Name="btnLoginGoogle"
+                        Text="Google+"
+                        BackgroundColor="#d34836"
+                        TextColor="#f1f1f1"
+                        Clicked="BtnLoginGoogle_OnClicked"
+                        FontSize="Medium"/>
+            </StackLayout>
+
+            <StackLayout x:Name="FrameAccount" Padding="10" IsVisible="False">
+                <Label Text="Your account" FontSize="Large"/>
+                <Label Text=" "/>
+                <Button x:Name="btnLogout"
+                        Text="Logout"
+                        BackgroundColor="DarkRed"
+                        TextColor="#ffffff"
+                        Clicked="BtnLogout_OnClicked"/>
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
