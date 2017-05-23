@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Xamarin.Forms;
@@ -22,11 +23,6 @@ namespace JotDown
             {
                 syncButton.IsVisible = true;
             }
-            if (!(bool) Application.Current.Properties["LoggedIn"])
-            {
-                btnAccount.Text = "Sign In";
-                syncButton.IsVisible = false;
-            }
 
             InitData();
         }
@@ -42,6 +38,22 @@ namespace JotDown
 
             // Set syncItems to true in order to synchronize the data on startup when running in offline mode
             await RefreshItems( true, syncItems: true );
+
+            // Refresh items only when authenticated.
+            if (Constants.GetProperty<bool>("LoggedIn").Equals(true))
+            {
+                // Set syncItems to true in order to synchronize the data
+                // on startup when running in offline mode.
+                await RefreshItems(true, syncItems: false);
+
+                // Hide the Sign-in button.
+                btnAccount.Text = "Account";
+            }
+            else
+            {
+                btnAccount.Text = "Sign In";
+                syncButton.IsVisible = false;
+            }
         }
 
         // Data methods
@@ -172,6 +184,35 @@ namespace JotDown
             await DisplayAlert("JotDown.",
                 "Made by Giang Nguyen\nwww.giangnb.com\n\nPowered by Xamarin.Forms + Azure Mobile Service", 
                 "Close");
+        }
+
+        private void BtnCancelSearch_OnClicked(object sender, EventArgs e)
+        {
+            InitData();
+            TxtSearch.Text = "";
+            BtnCancelSearch.IsVisible = false;
+        }
+
+        private async void BtnSearch_OnClicked(object sender, EventArgs e)
+        {
+            BtnCancelSearch.IsVisible = true;
+            var list = await Constants.TodoManager.GetTodoItemsAsync();
+            var s = TxtSearch.Text.ToLower();
+            todoList.ItemsSource = list.Where(
+                i => i.Name.ToLower().Contains(s)
+                  && i.Note.ToLower().Contains( s ) );
+        }
+
+        private void TxtSearch_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (TxtSearch.Text.Length <= 0)
+            {
+                BtnSearch.IsVisible = false;
+            }
+            else
+            {
+                BtnSearch.IsVisible = true;
+            }
         }
     }
 }

@@ -1,5 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using JotDown.Services;
+using Microsoft.WindowsAzure.MobileServices;
+using Newtonsoft.Json;
 using Xamarin.Forms;
 
 namespace JotDown
@@ -13,27 +18,37 @@ namespace JotDown
 
 	    public static TodoItemManager TodoManager => TodoItemManager.DefaultManager;
 
+        public static AppPreferenceManager AppPreference => AppPreferenceManager.DefaultManager;
+
 	    public static readonly string OfflineDbPath = @"localstore.db";
+	    public static readonly string PreferenceDbPath = @"appPref.db";
 
+        // Define a authenticated user.
+        public static MobileServiceUser User = null;
+
+        // Properties & Shared Prreferences
+	    
         public static void InitialiseProperties()
-	    {
-	        if (!Application.Current.Properties.ContainsKey("LoggedIn"))
-	        {
-	            Application.Current.Properties["LoggedIn"] = false;
-	            Application.Current.Properties["UserId"] = "";
-	            Application.Current.Properties["UserName"] = "";
-            }
-
-	        if (!Application.Current.Properties.ContainsKey( "FirstStart" ))
-	        {
-	            Application.Current.Properties["FirstStart"] = true;
-	        }
-
-	        if (!Application.Current.Properties.ContainsKey( "Experimental" ))
-	        {
-	            Application.Current.Properties["Experimental"] = false;
-	        }
+        {
+            AppPreference.Add( "LoggedIn", false );
+            AppPreference.Add( "UserId", "" );
+            AppPreference.Add( "UserName", "" );
         }
-	}
+
+	    public static void SetProperty(string name, object value)
+	    {
+	        AppPreference.Add(name, value);
+	    }
+
+	    public static async Task<T> GetProperty<T>( string name )
+	    {
+	        var o = await AppPreference.Fetch(name);
+	        if (o != null)
+	        {
+	            return (T) o;
+	        }
+	        return default(T);
+	    }
+    }
 }
 

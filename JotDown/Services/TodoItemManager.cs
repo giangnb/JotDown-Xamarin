@@ -15,11 +15,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
-
-#if OFFLINE_SYNC_ENABLED
 using Microsoft.WindowsAzure.MobileServices.SQLiteStore;
 using Microsoft.WindowsAzure.MobileServices.Sync;
-#endif
 
 namespace JotDown
 {
@@ -27,18 +24,13 @@ namespace JotDown
     {
         static TodoItemManager defaultInstance = new TodoItemManager();
         MobileServiceClient client;
-
-#if OFFLINE_SYNC_ENABLED
+        
         IMobileServiceSyncTable<TodoItem> todoTable;
-#else
-        IMobileServiceTable<TodoItem> todoTable;
-#endif
 
         private TodoItemManager()
         {
             this.client = new MobileServiceClient( Constants.ApplicationURL );
-
-#if OFFLINE_SYNC_ENABLED
+            
             var store = new MobileServiceSQLiteStore( Constants.OfflineDbPath );
             store.DefineTable<TodoItem>();
 
@@ -46,9 +38,6 @@ namespace JotDown
             this.client.SyncContext.InitializeAsync( store );
 
             this.todoTable = client.GetSyncTable<TodoItem>();
-#else
-            this.todoTable = client.GetTable<TodoItem>();
-#endif
         }
 
         public static TodoItemManager DefaultManager
@@ -75,19 +64,23 @@ namespace JotDown
 
         public async Task<ObservableCollection<TodoItem>> GetTodoItemsAsync( bool syncItems = false )
         {
+            var list = await GetAllTodoItemsAsync();
+            return new ObservableCollection<TodoItem>(list.Where(i => !i.Done && i.Account.Equals(Constants.GetProperty<string>("UserId"))));
+        }
+
+        public async Task<ObservableCollection<TodoItem>> GetAllTodoItemsAsync( bool syncItems = false )
+        {
             try
             {
-#if OFFLINE_SYNC_ENABLED
                 if (syncItems)
                 {
                     await this.SyncAsync();
                 }
-#endif
                 IEnumerable<TodoItem> items = await todoTable
                     .Where( todoItem => !todoItem.Done )
                     .ToEnumerableAsync();
 
-                return new ObservableCollection<TodoItem>( items.Where(i=>!i.Done).Reverse() );
+                return new ObservableCollection<TodoItem>( items.Reverse() );
             }
             catch (MobileServiceInvalidOperationException msioe)
             {
@@ -111,8 +104,7 @@ namespace JotDown
                 await todoTable.UpdateAsync( item );
             }
         }
-
-#if OFFLINE_SYNC_ENABLED
+        
         public async Task SyncAsync()
         {
             ReadOnlyCollection<MobileServiceTableOperationError> syncErrors = null;
@@ -156,6 +148,5 @@ namespace JotDown
                 }
             }
         }
-#endif
     }
 }

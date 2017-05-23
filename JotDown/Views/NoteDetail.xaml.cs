@@ -32,6 +32,20 @@ namespace JotDown
                 UpdateData();
             }
             BindingContext = viewmodel = new NoteDetailViewModel( todo );
+
+            this.Appearing += OnAppearing;
+        }
+
+        private async void OnAppearing(object sender, EventArgs eventArgs)
+        {
+            var list = await Constants.TodoManager.GetTodoItemsAsync(true);
+            var selected = list.FirstOrDefault(p => p.Id.Equals(todo.Id));
+            if (selected != null)
+            {
+                todo = selected;
+                viewmodel.Item = selected;
+                UpdateData();
+            }
         }
 
         private void UpdateData()
@@ -40,17 +54,6 @@ namespace JotDown
             if (todo.IsNote)
             {
                 LblNote.Text = todo.Note.Length > 0?todo.Note:"This is an empty note.";
-
-                //LblNote.IsVisible = true;
-                //FrameList.IsVisible = false;
-            }
-            else
-            {
-                //LstPending.ItemsSource  = todo.Todo.Where( i => !i.Complete );
-                //LstComplete.ItemsSource = todo.Todo.Where( i =>  i.Complete );
-
-                //LblNote.IsVisible = false;
-                //FrameList.IsVisible = true;
             }
         }
 

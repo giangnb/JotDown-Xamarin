@@ -7,10 +7,15 @@ namespace JotDown
 {
 	public class TodoItem
 	{
+	    public TodoItem()
+	    {
+	        Account = Constants.GetProperty<string>("UserId").Result;
+	    }
+
 		[JsonProperty(PropertyName = "id")]
 		public string Id { get; set; }
 
-	    [JsonProperty( PropertyName = "account" )]
+	    [JsonProperty(PropertyName = "account")]
 	    public string Account { get; set; }
 
 	    [JsonProperty( PropertyName = "name" )]

@@ -1,5 +1,7 @@
 ﻿using System;
-
+using System.IO;
+using System.Reflection;
+using JotDown.Services;
 using Xamarin.Forms;
 
 namespace JotDown
@@ -15,8 +17,8 @@ namespace JotDown
 
 		protected override void OnStart ()
 		{
-			// Handle when your app starts
-		}
+            // Handle when your app starts
+        }
 
 		protected override void OnSleep ()
 		{
@@ -27,6 +29,15 @@ namespace JotDown
 		{
 			// Handle when your app resumes
 		}
-	}
+
+
+        //Authenticate
+	    public static IAuthenticate Authenticator { get; private set; }
+
+	    public static void Init( IAuthenticate authenticator )
+	    {
+	        Authenticator = authenticator;
+	    }
+    }
 }
 

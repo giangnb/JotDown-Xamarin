@@ -31,6 +31,27 @@ namespace JotDown.ViewModels
         public List<Item> Pending = new List<Item>();
         public List<Item> Completed = new List<Item>();
 
+        public string Note
+        {
+            get
+            {
+                if (Item.IsNote)
+                {
+                    return Item.Note;
+                }
+                else
+                {
+                    string ctx = "";
+                    foreach (Item i in Item.Todo)
+                    {
+                        ctx += " - " + i.Name + "\n";
+                    }
+                    return ctx;
+                }
+            }
+            set { }
+        }
+
         public async Task CompleteItem(Item checkItem)
         {
             var todos = Item.Todo;

@@ -8,13 +8,13 @@
         <ScrollView VerticalOptions="FillAndExpand">
             <StackLayout>
                 <!-- For note -->
-                <Label x:Name="LblNote" Text="{Binding Item.Note}" 
+                <Label x:Name="LblNote" Text="{Binding Note}" 
                    LineBreakMode="WordWrap" 
-                   IsVisible="{Binding Item.IsNote}"/>
+                   IsVisible="True"/>
 
                 <!-- For todo -->
                 <StackLayout Orientation="Vertical" 
-                         IsVisible="{Binding Item.IsTodo}">
+                         IsVisible="False">
                     <Label Text="Pending"></Label>
                     <ListView x:Name="LstPending" 
                           ItemsSource="{Binding Pending, Mode=TwoWay}"
