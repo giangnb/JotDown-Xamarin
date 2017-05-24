@@ -12,7 +12,7 @@ using Microsoft.WindowsAzure.MobileServices;
 
 namespace JotDown.Droid
 {
-	[Activity (Label = "JotDown.Droid",
+	[Activity (Label = "JotDown",
 		Icon = "@drawable/icon",
 		MainLauncher = true,
 		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation,

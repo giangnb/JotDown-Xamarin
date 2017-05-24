@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
 using Newtonsoft.Json;
@@ -70,15 +71,7 @@ namespace JotDown
             var todo = e.SelectedItem as TodoItem;
             if (Device.OS != TargetPlatform.iOS && todo != null)
             {
-                // Not iOS - the swipe-to-delete is discoverable there
-                if (Device.OS == TargetPlatform.Android)
-                {
-                    await DisplayAlert(todo.Name, "Press-and-hold to complete task " + todo.Name, "Got it!");
-                }
-                else
-                {
-                    await Navigation.PushAsync( new TodoDetail( todo ), true );
-                }
+                await Navigation.PushAsync( new TodoDetail( todo ), true );
             }
         }
         
@@ -170,6 +163,20 @@ namespace JotDown
                 {
                     indicatorDelay.ContinueWith(t => SetIndicatorActivity(false), TaskScheduler.FromCurrentSynchronizationContext());
                 }
+            }
+        }
+
+        private async void NewItemName_OnCompleted(object sender, EventArgs e)
+        {
+            var list = await manager.GetTodoItemsAsync(false);
+            if (TxtSearch.Text.Length > 0)
+            {
+                todoList.ItemsSource =
+                    list.Where(i => i.Name.Contains(TxtSearch.Text) || i.Content.Contains(TxtSearch.Text));
+            }
+            else
+            {
+                todoList.ItemsSource = list;
             }
         }
     }

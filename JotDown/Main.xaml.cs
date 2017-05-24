@@ -15,6 +15,10 @@ namespace JotDown
         public Main()
         {
             InitializeComponent();
+            if (Device.OS == TargetPlatform.Android)
+            {
+                Title = "JotDown";
+            }
         }
     }
 }

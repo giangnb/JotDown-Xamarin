@@ -20,8 +20,9 @@
                     <ColumnDefinition/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <Entry x:Name="newItemName"
-                       Placeholder="Search" />
+                <Entry x:Name="TxtSearch"
+                       Placeholder="Search" 
+                       Completed="NewItemName_OnCompleted"/>
                 <StackLayout x:Name="buttonsPanel" Grid.Column="1" Orientation="Horizontal" HorizontalOptions="StartAndExpand">
                     <Button Text="Add note"
                             MinimumHeightRequest="30"
