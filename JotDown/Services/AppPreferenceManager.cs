@@ -14,40 +14,43 @@ namespace JotDown.Services
     public class AppPreferenceManager
     {
         private static AppPreferenceManager instance = new AppPreferenceManager();
-        private SQLiteAsyncConnection conn;
+        private SQLiteConnection conn;
 
-        private AppPreferenceManager()
+        public AppPreferenceManager()
         {
-            conn = new SQLiteAsyncConnection( Constants.PreferenceDbPath );
-            conn.CreateTableAsync<AppPreference>();
+            conn = new SQLiteConnection( Constants.OfflineDbPath );
+            conn.CreateTable<AppPreference>();
         }
 
         public static AppPreferenceManager DefaultManager
         {
-            get { return instance; }
+            get
+            {
+                return instance;
+            }
             private set { instance = value; }
         }
 
-        public async void Add(string key, object value)
+        public void Add(string key, object value)
         {
-            await conn.InsertOrReplaceAsync(new AppPreference() {Key = key, Value = value});
+            conn.InsertOrReplace(new AppPreference() {Key = key, Value = value});
         }
 
-        public Task<List<AppPreference>> Fetch()
+        public List<AppPreference> Fetch()
         {
-            return conn.Table<AppPreference>().ToListAsync();
+            return conn.Table<AppPreference>().ToList();
         }
 
-        public async Task<object> Fetch(string key)
+        public object Fetch(string key)
         {
-            var items = await Fetch();
+            var items = Fetch();
             var item = items.FirstOrDefault(p => p.Key.ToLower().Equals(key.ToLower()));
             return item?.Value;
         }
 
-        public async void Remove(string key)
+        public void Remove(string key)
         {
-            await conn.DeleteAsync( new AppPreference() { Key = key } );
+            conn.Delete( new AppPreference() { Key = key } );
         }
 
     }

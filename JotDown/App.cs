@@ -10,8 +10,9 @@ namespace JotDown
 	{
 		public App ()
 		{
-		    Constants.InitialiseProperties();
-			// The root page of your application
+		    //Constants.InitialiseProperties();
+			
+            // The root page of your application
 			MainPage = new NavigationPage( new NoteList() );
 		}
 

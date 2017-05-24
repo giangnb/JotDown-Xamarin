@@ -18,7 +18,7 @@ namespace JotDown
             //manager = TodoItemManager.DefaultManager;
 
             // OnPlatform<T> doesn't currently support the "Windows" target platform, so we have this check here.
-            if (Constants.TodoManager.IsOfflineEnabled &&
+            if (TodoItemManager.DefaultManager.IsOfflineEnabled &&
                 (Device.RuntimePlatform == Device.Windows || Device.RuntimePlatform == Device.WinPhone))
             {
                 syncButton.IsVisible = true;
@@ -29,7 +29,7 @@ namespace JotDown
 
         private async void InitData()
         {
-            todoList.ItemsSource = await Constants.TodoManager.GetTodoItemsAsync();
+            todoList.ItemsSource = await TodoItemManager.DefaultManager.GetTodoItemsAsync();
         }
 
         protected override async void OnAppearing()
@@ -59,15 +59,15 @@ namespace JotDown
         // Data methods
         async Task AddItem( TodoItem item )
         {
-            await Constants.TodoManager.SaveTaskAsync( item );
-            todoList.ItemsSource = await Constants.TodoManager.GetTodoItemsAsync();
+            await TodoItemManager.DefaultManager.SaveTaskAsync( item );
+            todoList.ItemsSource = await TodoItemManager.DefaultManager.GetTodoItemsAsync();
         }
 
         async Task CompleteItem( TodoItem item )
         {
             item.Done = true;
-            await Constants.TodoManager.SaveTaskAsync( item );
-            todoList.ItemsSource = await Constants.TodoManager.GetTodoItemsAsync();
+            await TodoItemManager.DefaultManager.SaveTaskAsync( item );
+            todoList.ItemsSource = await TodoItemManager.DefaultManager.GetTodoItemsAsync();
         }
 
         public async void OnAdd( object sender, EventArgs e )
@@ -128,7 +128,7 @@ namespace JotDown
         {
             using (var scope = new ActivityIndicatorScope( syncIndicator, showActivityIndicator ))
             {
-                todoList.ItemsSource = await Constants.TodoManager.GetTodoItemsAsync( syncItems );
+                todoList.ItemsSource = await TodoItemManager.DefaultManager.GetTodoItemsAsync( syncItems );
             }
         }
 
@@ -196,7 +196,7 @@ namespace JotDown
         private async void BtnSearch_OnClicked(object sender, EventArgs e)
         {
             BtnCancelSearch.IsVisible = true;
-            var list = await Constants.TodoManager.GetTodoItemsAsync();
+            var list = await TodoItemManager.DefaultManager.GetTodoItemsAsync();
             var s = TxtSearch.Text.ToLower();
             todoList.ItemsSource = list.Where(
                 i => i.Name.ToLower().Contains(s)

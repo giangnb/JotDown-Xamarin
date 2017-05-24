@@ -13,6 +13,12 @@ namespace JotDown.Models
     [Table("appPref")]
     public class AppPreference
     {
+        public AppPreference()
+        {
+            Key = "";
+            Value = "";
+        }
+
         [PrimaryKey, Unique, Column("key")]
         [JsonProperty(PropertyName = "key")]
         public string Key { get; set; }

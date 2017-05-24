@@ -90,7 +90,7 @@ namespace JotDown.ViewModels
 
         public async Task SaveItem()
         {
-            await Constants.TodoManager.SaveTaskAsync( Item );
+            await TodoItemManager.DefaultManager.SaveTaskAsync( Item );
         }
     }
 }

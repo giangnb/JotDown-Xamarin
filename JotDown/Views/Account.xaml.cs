@@ -23,12 +23,12 @@ namespace JotDown
             ShowFrame();
         }
 
-        private async void ShowFrame()
+        private void ShowFrame()
         {
-            var service = await Constants.GetProperty<string>( "AuthService" );
+            var service = Constants.GetProperty<string>( "AuthService" );
             TxtService.Text = $"Logged in using {service??""} account";
 
-            if ((bool) await Constants.GetProperty<bool>( "LoogedIn" ))
+            if ((bool) Constants.GetProperty<bool>( "LoogedIn" ))
             {
                 FrameAccount.IsVisible = true;
             }
@@ -40,7 +40,7 @@ namespace JotDown
 
         private async void BtnLoginMicrosoft_OnClicked(object sender, EventArgs e)
         {
-            Constants.SetProperty("AuthService", "Microsoft Account");
+            Constants.SetProperty("AuthService", "Microsoft");
             await LoginAsync(MobileServiceAuthenticationProvider.MicrosoftAccount);
         }
 
@@ -66,7 +66,7 @@ namespace JotDown
         {
             Constants.SetProperty( "LoggedIn", false );
             Constants.SetProperty( "UserId", "" );
-            var list = await Constants.TodoManager.GetTodoItemsAsync(false);
+            var list = await TodoItemManager.DefaultManager.GetTodoItemsAsync(false);
             foreach (TodoItem item in list)
             {
                 item.Account = "";
@@ -85,19 +85,19 @@ namespace JotDown
             if (auth)
             {
                 // Assign all current items to current account
-                var list = await Constants.TodoManager.GetAllTodoItemsAsync();
+                /*var list = await TodoItemManager.DefaultManager.GetTodoItemsAsync();
                 foreach (TodoItem item in list.ToList())
                 {
                     item.Account = await Constants.GetProperty<string>("UserId");
-                    await Constants.TodoManager.SaveTaskAsync(item);
+                    await TodoItemManager.DefaultManager.SaveTaskAsync(item);
                 }
-                await Constants.TodoManager.SyncAsync();
+                await TodoItemManager.DefaultManager.SyncAsync();*/
 
                 //Change UI
                 Constants.SetProperty( "LoggedIn", true );
                 FrameAccount.IsVisible = true;
                 FrameLogIn.IsVisible = false;
-                var service = await Constants.GetProperty<string>( "AuthService" );
+                var service = Constants.GetProperty<string>( "AuthService" );
                 TxtService.Text = $"Logged in using {service} account";
             }
         }

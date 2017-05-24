@@ -38,7 +38,7 @@ namespace JotDown
 
         private async void OnAppearing(object sender, EventArgs eventArgs)
         {
-            var list = await Constants.TodoManager.GetTodoItemsAsync(true);
+            var list = await TodoItemManager.DefaultManager.GetTodoItemsAsync(true);
             var selected = list.FirstOrDefault(p => p.Id.Equals(todo.Id));
             if (selected != null)
             {
@@ -71,8 +71,8 @@ namespace JotDown
                 }
             }
             todo.Todo = todos;
-            await Constants.TodoManager.SaveTaskAsync(todo);
-            await Constants.TodoManager.SyncAsync();
+            await TodoItemManager.DefaultManager.SaveTaskAsync(todo);
+            await TodoItemManager.DefaultManager.SyncAsync();
             UpdateData();
         }
 

@@ -9,7 +9,7 @@ namespace JotDown
 	{
 	    public TodoItem()
 	    {
-	        Account = Constants.GetProperty<string>("UserId").Result;
+	        Account = Constants.GetProperty<string>("UserId");
 	    }
 
 		[JsonProperty(PropertyName = "id")]

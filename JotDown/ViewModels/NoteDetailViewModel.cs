@@ -64,7 +64,7 @@ namespace JotDown.ViewModels
                 }
             }
             Item.Todo = todos;
-            await Constants.TodoManager.SaveTaskAsync( Item );
+            await TodoItemManager.DefaultManager.SaveTaskAsync( Item );
             InitLists();
         }
 
