@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="JotDown.About"
+             Title="About">
+    <ScrollView>
+        <StackLayout Padding="10">
+            <Label Text="JotDown" FontSize="Large"/>
+            <Label Text="by Giang Nguyen"/>
+            <Label Text=""/>
+            <Label Text="Created with Xamarin + Azure Mobile Services"/>
+            <Label Text="Graphic credits:" LineBreakMode="WordWrap" TextColor="Gray"/>
+            <Label Text="Pen icon by Anton Kalashnyk (Creative Common License)" LineBreakMode="WordWrap" TextColor="Gray"/>
+            <Label Text="Hawcons by Yannick Lung" LineBreakMode="WordWrap" TextColor="Gray"/>
+            <Label Text=""/>
+            <Button x:Name="BtnContact"
+                    Text="Contact me"
+                    HorizontalOptions="Start"
+                    Clicked="BtnContact_OnClicked"/>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

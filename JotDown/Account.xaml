@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="JotDown.Account"
+             Title="Account">
+    <StackLayout Spacing="10">
+        <Label Text="Account" FontSize="Large"/>
+        <StackLayout x:Name="FrameLogin" IsVisible="True">
+            <Label Text="Sign-in to save and sync notes across your devices"/>
+            <Button x:Name="BtnLogin"
+                    Text="Sign-in now"
+                    Clicked="BtnLogin_OnClicked"/>
+            <Label Text="using social network accounts"
+                   TextColor="Gray" HorizontalTextAlignment="Center"/>
+        </StackLayout>
+        
+        <StackLayout x:Name="FrameAccount" IsVisible="False">
+            <Label Text="You're logged in"/>
+            <Button x:Name="BtnLogout"
+                    Text="Logout"
+                    BackgroundColor="Silver"
+                    TextColor="Maroon"
+                    Clicked="BtnLogout_OnClicked"/>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

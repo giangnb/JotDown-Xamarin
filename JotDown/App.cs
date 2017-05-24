@@ -1,25 +1,24 @@
 ﻿using System;
-using System.IO;
-using System.Reflection;
-using JotDown.Services;
+using Microsoft.WindowsAzure.MobileServices;
+using Newtonsoft.Json;
 using Xamarin.Forms;
 
 namespace JotDown
 {
 	public class App : Application
 	{
-		public App ()
+	    public static MobileServiceUser authenticated = null;
+
+        public App ()
 		{
-		    //Constants.InitialiseProperties();
-			
             // The root page of your application
-			MainPage = new NavigationPage( new NoteList() );
+			MainPage = new NavigationPage( new Main() );
 		}
 
 		protected override void OnStart ()
 		{
             // Handle when your app starts
-        }
+		}
 
 		protected override void OnSleep ()
 		{
@@ -31,8 +30,6 @@ namespace JotDown
 			// Handle when your app resumes
 		}
 
-
-        //Authenticate
 	    public static IAuthenticate Authenticator { get; private set; }
 
 	    public static void Init( IAuthenticate authenticator )

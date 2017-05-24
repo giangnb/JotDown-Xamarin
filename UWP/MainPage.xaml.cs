@@ -15,7 +15,6 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using JotDown;
-using JotDown.Services;
 using Microsoft.WindowsAzure.MobileServices;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -25,7 +24,7 @@ namespace UWP
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage:IAuthenticate
+    public sealed partial class MainPage : IAuthenticate
     {
         public MainPage()
         {
@@ -36,7 +35,10 @@ namespace UWP
             LoadApplication(new JotDown.App());
         }
 
-        public async Task<bool> Authenticate(MobileServiceAuthenticationProvider provider)
+        // Define a authenticated user.
+        private MobileServiceUser user;
+
+        public async Task<MobileServiceUser> Authenticate( MobileServiceAuthenticationProvider provider)
         {
             string message = string.Empty;
             var success = false;
@@ -44,17 +46,14 @@ namespace UWP
             try
             {
                 // Sign in with Facebook login using a server-managed flow.
-                if (Constants.User == null)
+                if (user == null)
                 {
-                    Constants.User = await TodoItemManager.DefaultManager.CurrentClient
+                    user = await TodoItemManager.DefaultManager.CurrentClient
                         .LoginAsync( provider );
-                    if (Constants.User != null)
+                    if (user != null)
                     {
                         success = true;
-                        message = "You've signed-in successfully.";
-                        Constants.SetProperty( "LoggedIn", true );
-                        Constants.SetProperty( "UserId", Constants.User.UserId );
-                        Constants.SetProperty( "UserAccount", Constants.User );
+                        message = "You are now signed-in.";
                     }
                 }
 
@@ -67,7 +66,12 @@ namespace UWP
             // Display the success or failure message.
             await new MessageDialog( message, "Sign-in result" ).ShowAsync();
 
-            return success;
+            return success?user:null;
+        }
+
+        public async void Logout()
+        {
+            await TodoItemManager.DefaultManager.CurrentClient.LogoutAsync();
         }
     }
 }

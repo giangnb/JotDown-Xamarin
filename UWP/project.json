@@ -6,8 +6,8 @@
     "Microsoft.Bcl.Build": "1.0.21",
     "Microsoft.Net.Http": "2.2.29",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
-    "Newtonsoft.Json": "10.0.2",
-    "Xamarin.Forms": "2.3.4.247"
+    "Newtonsoft.Json": "6.0.4",
+    "Xamarin.Forms": "2.0.0.6482"
   },
   "frameworks": {
     "uap10.0": {}
