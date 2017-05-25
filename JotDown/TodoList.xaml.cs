@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -125,7 +126,8 @@ namespace JotDown
         {
             using (var scope = new ActivityIndicatorScope(syncIndicator, showActivityIndicator))
             {
-                todoList.ItemsSource = await manager.GetTodoItemsAsync(syncItems && App.authenticated != null );
+                var sid = App.authenticated != null ? App.authenticated.UserId : "";
+                todoList.ItemsSource = (await manager.GetTodoItemsAsync(syncItems && App.authenticated != null )).Where(i=>i.Account==sid);
             }
         }
 
@@ -168,16 +170,25 @@ namespace JotDown
 
         private async void NewItemName_OnCompleted(object sender, EventArgs e)
         {
-            var list = await manager.GetTodoItemsAsync(false);
+            var sid = App.authenticated != null ? App.authenticated.UserId : "";
+            var list = (await manager.GetTodoItemsAsync(false)).Where(i=>i.Account==sid);
             if (TxtSearch.Text.Length > 0)
             {
+                BtnCancelSearch.IsVisible = true;
                 todoList.ItemsSource =
                     list.Where(i => i.Name.Contains(TxtSearch.Text) || i.Content.Contains(TxtSearch.Text));
             }
             else
             {
+                BtnCancelSearch.IsVisible = false;
                 todoList.ItemsSource = list;
             }
+        }
+
+        private void BtnCancelSearch_OnClicked(object sender, EventArgs e)
+        {
+            TxtSearch.Text = "";
+            NewItemName_OnCompleted(sender, e);
         }
     }
 }

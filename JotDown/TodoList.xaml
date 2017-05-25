@@ -20,14 +20,24 @@
                     <ColumnDefinition/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                
                 <Entry x:Name="TxtSearch"
                        Placeholder="Search" 
                        Completed="NewItemName_OnCompleted"/>
-                <StackLayout x:Name="buttonsPanel" Grid.Column="1" Orientation="Horizontal" HorizontalOptions="StartAndExpand">
+                <StackLayout x:Name="buttonsPanel" Grid.Column="1" Grid.Row="0"
+                             Orientation="Horizontal" HorizontalOptions="StartAndExpand">
                     <Button Text="Add note"
                             MinimumHeightRequest="30"
                             Clicked="OnAdd" />
                 </StackLayout>
+                <Button x:Name="BtnCancelSearch" HorizontalOptions="FillAndExpand"
+                        Text="Cancel search" IsVisible="False"
+                        Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                        Clicked="BtnCancelSearch_OnClicked"/>
             </Grid>
         </StackLayout>
         <ListView x:Name="todoList"
@@ -53,3 +63,6 @@
         </ListView>
     </Grid>
 </ContentPage>
+
+
+

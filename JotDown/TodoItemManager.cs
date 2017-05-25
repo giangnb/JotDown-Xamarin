@@ -46,7 +46,7 @@ namespace JotDown
 
             //Initializes the SyncContext using the default IMobileServiceSyncHandler.
             this.client.SyncContext.InitializeAsync(store);
-
+            
             this.todoTable = client.GetSyncTable<TodoItem>();
 #else
             this.todoTable = client.GetTable<TodoItem>();
@@ -87,7 +87,7 @@ namespace JotDown
 #endif
                 IEnumerable<TodoItem> items = await todoTable
                     .ToEnumerableAsync();
-                
+
                 return new ObservableCollection<TodoItem>(items.Reverse());
             }
             catch (MobileServiceInvalidOperationException msioe)
